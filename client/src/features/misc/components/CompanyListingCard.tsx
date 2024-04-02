@@ -38,7 +38,7 @@ const SocialMediaButton: React.FC<SocialMediaButtonProps> = ({type, link}) => {
 
 export const CompanyListingCard: React.FC<CompanyListingCardProps> = ({companyData, handleCardClick, active}) => {
     return (
-        <div tabIndex={0} onClick={handleCardClick} className={clsx("border-solid border max-w-[500px] w-full rounded-md p-4 hover:bg-zinc-100 transition-all duration-75", active ? "border-gray-300" : "border-white")}>
+        <div tabIndex={0} onClick={handleCardClick} className={clsx("border-solid border max-w-[500px] w-full rounded-md p-4 hover:bg-zinc-100 transition-all duration-75", active ? "border-gray-300" : "border-transparent")}>
             <div>
                 <a href={companyData.website_url} target="_blank" rel="noopener noreferrer" className="hover:underline text-black text-xl font-bold decoration-2">{companyData.company_name}</a>
                 
