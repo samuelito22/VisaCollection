@@ -137,17 +137,15 @@ export function HomeView() {
 
   
   return (
-    <div className="">
-      <div>
-        <div className="flex flex-col gap-y-[1px]">
+    <>
+        <section className="flex flex-col gap-y-[1px]">
           {companyListData?.map((field, idx) => {
           return (
             <CompanyListingCard companyData={field} key={idx} handleCardClick={() => handleCardClick(idx)} active={activeCardIndex === idx}/>
           )
         })}
-        </div>
-      </div>
-    </div>
+        </section>
+    </>
   )
 }
 
