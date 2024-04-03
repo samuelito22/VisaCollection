@@ -1,3 +1,20 @@
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
+  console.error(err.name, err.message);
+  process.exit(1);
+});
+
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION! 💥 Shutting down...');
+  if (err instanceof Error){
+    console.error(err.name, err.message)
+  } else {
+    console.error(err)
+  }
+  process.exit(1);
+});
+
+
 import dotenv from "dotenv";
 dotenv.config();
 
