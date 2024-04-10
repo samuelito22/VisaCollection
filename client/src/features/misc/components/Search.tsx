@@ -1,12 +1,14 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 
 interface SearchInputProps {
   placeholder: string;
   icon: JSX.Element; // Allows passing SVG icons
   focusRef: React.RefObject<HTMLInputElement>; // For focusing the input
+  onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef }) => {
+const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef, onKeyDown }) => {
   return (
     <div className='max-w-[350px] w-screen h-12 flex' onClick={() => focusRef.current?.focus()}>
       <div className="w-16 flex justify-center items-center">
@@ -14,6 +16,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef }
       </div>
       <input
         ref={focusRef}
+        onKeyDown={onKeyDown}
         type="text"
         name="search"
         className="pr-3 py-2 w-full h-full bg-white focus:ring-0 focus:border-none font-light text-gray-700 " 
@@ -28,6 +31,35 @@ const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef }
 export function Search() {
     const firstInputRef = React.useRef<HTMLInputElement>(null);
     const secondInputRef = React.useRef<HTMLInputElement>(null);
+    const router = useRouter();
+    const { q, l } = router.query;
+
+
+    const handleButtonClick =  () => {
+        const values = [firstInputRef.current?.value, secondInputRef.current?.value]
+
+        if(values[0] || values[1]){
+            window.location.href = `/companies?q=${values[0] ? encodeURIComponent(values[0]) : ''}&l=${values[1] ? encodeURIComponent(values[1]) : ''}`
+        }
+    }
+
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            handleButtonClick();
+        }
+    };
+
+    React.useEffect(() => {
+        const qValue = typeof q === 'string' ? decodeURIComponent(q) : '';
+        const lValue = typeof l === 'string' ? decodeURIComponent(l) : '';
+
+        if (firstInputRef.current && qValue) {
+            firstInputRef.current.value = qValue;
+        }
+        if (secondInputRef.current && lValue) {
+            secondInputRef.current.value = lValue;
+        }
+    }, [q, l]);
 
     const firstIcon = (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17" fill="currentColor">
@@ -45,16 +77,18 @@ export function Search() {
     return (
             <div className='border border-gray-400 shadow-md rounded-md flex flex-col sm:flex-row overflow-hidden p-2'>
                 <SearchInput 
-                    placeholder="Industry, company, keywords."
+                    placeholder="Industry, company, keywords"
                     icon={firstIcon}
                     focusRef={firstInputRef}
+                    onKeyDown={handleKeyDown}
                 />
                 <SearchInput 
-                    placeholder="Another search"
+                    placeholder="City"
                     icon={secondIcon}
                     focusRef={secondInputRef}
+                    onKeyDown={handleKeyDown}
                 />
-                <button className='btn btn-neutral m-auto w-full sm:w-auto '>Find companies</button>
+                <button className='btn btn-neutral m-auto w-full sm:w-auto ' onClick={handleButtonClick}>Find companies</button>
             </div>
     );
 }

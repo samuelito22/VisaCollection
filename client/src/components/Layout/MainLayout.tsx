@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Footer } from ".";
 
 type MainLayoutProps = {
@@ -7,7 +8,7 @@ type MainLayoutProps = {
 const NavBar = () => {
   return (
     <div className="navbar bg-base-100">
-      <a className="btn btn-ghost text-xl">Internation</a>
+      <Link className="btn btn-ghost text-xl" href={'/'}>Internation</Link>
     </div>
   )
 }

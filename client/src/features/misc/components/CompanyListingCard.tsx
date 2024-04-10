@@ -34,7 +34,7 @@ export const CompanyListingCard: React.FC<CompanyListingCardProps> = ({companyDa
     }
 
     return (
-        <div tabIndex={0} onClick={onClick} className={clsx("group/card border-solid cursor-pointer border max-w-[500px] w-full rounded-md p-4 hover:bg-zinc-50 transition-all duration-75", active ? "border-gray-300" : "border-transparent")}>
+        <div tabIndex={0} onClick={onClick} className={clsx("group/card border-solid h-full cursor-pointer border max-w-[500px] w-full rounded-md p-4 hover:bg-zinc-50 transition-all duration-75", active ? "border-gray-300" : "border-transparent")}>
             <div>
                 <span className="group-hover/card:underline text-black text-lg font-bold decoration-2">{companyData.company_name}</span>
                 
