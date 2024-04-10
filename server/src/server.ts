@@ -21,11 +21,16 @@ dotenv.config();
 import app from '@/app'; // Import the configured Express app
 import { createServer } from 'http';
 import { sequelize } from '@/database';
+import "@v1/models"
 
 
 sequelize.authenticate()
-  .then(() => {
+  .then(async () => {
     console.log('Connection has been established successfully. 🐘');
+
+    await sequelize.sync().then(() => {
+      console.log(`Tables have been synchronized.`);
+    });
 
     // Start listening for requests after a successful database connection
     const server = createServer(app);

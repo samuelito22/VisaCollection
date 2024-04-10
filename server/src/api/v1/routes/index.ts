@@ -3,6 +3,6 @@ import companyRoutes from "./company.routes"
 
 const routes = express.Router()
 
-routes.use("/companies", companyRoutes)
+routes.use("/", companyRoutes)
 
 export default routes

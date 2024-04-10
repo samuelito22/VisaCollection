@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import v1Routes from "@/api/v1/routes"
 import cors from "cors"
 import { errorHandler } from './api/v1/middlewares';
+import { NODE_ENV } from './config';
+import morgan from "morgan"
 
 const app: Express = express();
 
@@ -12,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // CORS setup or other common middleware
 app.use(cors());
+
+if (NODE_ENV === 'development') {
+  app.use(morgan("dev"));
+}
 
 app.use(errorHandler);
 

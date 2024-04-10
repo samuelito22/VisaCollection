@@ -1,7 +1,7 @@
 import { MainLayout } from "@/components/Layout"
 import { HomeView } from "@/features/misc"
 
-function Landing() {
+function Home() {
   return (
     <MainLayout>
         <HomeView/>
@@ -9,4 +9,4 @@ function Landing() {
   )
 }
 
-export default Landing
+export default Home

@@ -1,10 +1,10 @@
-import { Sequelize } from 'sequelize';
 import { NODE_ENV, sequelizeConfig } from '@/config'; // Adjust the path as needed
+import { Sequelize } from 'sequelize-typescript';
 
 const config = sequelizeConfig[NODE_ENV as 'development'];
 
 // Create a Sequelize instance with the environment-specific configuration
-const sequelize = new Sequelize(
+const sequelize:Sequelize = new Sequelize(
     config.database,
     config.username,
     config.password,

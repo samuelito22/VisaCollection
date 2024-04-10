@@ -14,9 +14,9 @@ const NavBar = () => {
 
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen flex flex-col">
       <NavBar/>
-      <main className="relative w-full max-w-7xl mx-auto mb-8 mt-4">{children}</main>
+      <main className="relative w-full max-w-7xl mx-auto mb-8 mt-4 flex-grow">{children}</main>
       <Footer/>
     </div>
   )

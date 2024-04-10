@@ -1,150 +1,66 @@
 import { useEffect, useState } from "react"
-import { CompanyDataType, CompanyListingCard } from "../components"
+import { CompanyListingCard } from "../components"
+import { useGetCompanies } from "../api"
+import { CompanyDataType } from "@/types"
+import clsx from "clsx"
+import { Search } from "../components"
 
 
 export function HomeView() {
-  const [companyListData, setCompanyListData] = useState<CompanyDataType[] | null>(null)
+  const [companyListData, setCompanyListData] = useState<CompanyDataType[]>([])
   const [activeCardIndex, setActiveCardIndex] = useState(0)
+  const [page, setPage] = useState(1)
+  const { isLoading, data, error, totalPages } = useGetCompanies({page, limit: 40})
 
   useEffect(() => {
-    setCompanyListData([
-      {
-        company_name: 'Innovatech Solutions',
-        industry: 'Information Technology',
-        city: 'San Francisco, CA',
-        visa_route: 'H-1B Specialty Occupations',
-        website_url: 'https://innovatechsolutions.tech',
-        linkedin_url: 'https://www.linkedin.com/company/innovatechsolutions'
-      },
-      {
-        company_name: 'EcoSave',
-        industry: 'Environmental Services',
-        city: 'Austin, TX',
-        visa_route: 'J-1 Exchange Visitor',
-        website_url: 'https://ecosave.org',
-        linkedin_url: 'https://www.linkedin.com/company/ecosave'
-      },
-      {
-        company_name: 'FinTech Global',
-        industry: 'Financial Services',
-        city: 'New York, NY',
-        visa_route: 'O-1 Individuals with Extraordinary Ability or Achievement',
-        website_url: 'https://fintechglobal.finance',
-        linkedin_url: 'https://www.linkedin.com/company/fintechglobal'
-      },
-      {
-        company_name: 'BioHeal',
-        industry: 'Biotechnology',
-        city: 'Cambridge, MA',
-        visa_route: 'TN NAFTA Professionals',
-        website_url: 'https://bioheal.com',
-        linkedin_url: 'https://www.linkedin.com/company/bioheal'
-      },
-      {
-        company_name: 'AeroDynamics',
-        industry: 'Aerospace',
-        city: 'Seattle, WA',
-        visa_route: 'L-1 Intra-company Transferees',
-        website_url: 'https://aerodynamics.aero',
-        linkedin_url: 'https://www.linkedin.com/company/aerodynamics'
-      },
-      {
-        company_name: 'Innovatech Solutions',
-        industry: 'Information Technology',
-        city: 'San Francisco, CA',
-        visa_route: 'H-1B Specialty Occupations',
-        website_url: 'https://innovatechsolutions.tech',
-        linkedin_url: 'https://www.linkedin.com/company/innovatechsolutions'
-      },
-      {
-        company_name: 'EcoSave',
-        industry: 'Environmental Services',
-        city: 'Austin, TX',
-        visa_route: 'J-1 Exchange Visitor',
-        website_url: 'https://ecosave.org',
-        linkedin_url: 'https://www.linkedin.com/company/ecosave'
-      },
-      {
-        company_name: 'FinTech Global',
-        industry: 'Financial Services',
-        city: 'New York, NY',
-        visa_route: 'O-1 Individuals with Extraordinary Ability or Achievement',
-        website_url: 'https://fintechglobal.finance',
-        linkedin_url: 'https://www.linkedin.com/company/fintechglobal'
-      },
-      {
-        company_name: 'BioHeal',
-        industry: 'Biotechnology',
-        city: 'Cambridge, MA',
-        visa_route: 'TN NAFTA Professionals',
-        website_url: 'https://bioheal.com',
-        linkedin_url: 'https://www.linkedin.com/company/bioheal'
-      },
-      {
-        company_name: 'AeroDynamics',
-        industry: 'Aerospace',
-        city: 'Seattle, WA',
-        visa_route: 'L-1 Intra-company Transferees',
-        website_url: 'https://aerodynamics.aero',
-        linkedin_url: 'https://www.linkedin.com/company/aerodynamics'
-      },
-      {
-        company_name: 'Innovatech Solutions',
-        industry: 'Information Technology',
-        city: 'San Francisco, CA',
-        visa_route: 'H-1B Specialty Occupations',
-        website_url: 'https://innovatechsolutions.tech',
-        linkedin_url: 'https://www.linkedin.com/company/innovatechsolutions'
-      },
-      {
-        company_name: 'EcoSave',
-        industry: 'Environmental Services',
-        city: 'Austin, TX',
-        visa_route: 'J-1 Exchange Visitor',
-        website_url: 'https://ecosave.org',
-        linkedin_url: 'https://www.linkedin.com/company/ecosave'
-      },
-      {
-        company_name: 'FinTech Global',
-        industry: 'Financial Services',
-        city: 'New York, NY',
-        visa_route: 'O-1 Individuals with Extraordinary Ability or Achievement',
-        website_url: 'https://fintechglobal.finance',
-        linkedin_url: 'https://www.linkedin.com/company/fintechglobal'
-      },
-      {
-        company_name: 'BioHeal',
-        industry: 'Biotechnology',
-        city: 'Cambridge, MA',
-        visa_route: 'TN NAFTA Professionals',
-        website_url: 'https://bioheal.com',
-        linkedin_url: 'https://www.linkedin.com/company/bioheal'
-      },
-      {
-        company_name: 'AeroDynamics',
-        industry: 'Aerospace',
-        city: 'Seattle, WA',
-        visa_route: 'L-1 Intra-company Transferees',
-        website_url: 'https://aerodynamics.aero',
-        linkedin_url: 'https://www.linkedin.com/company/aerodynamics'
-      }
-    ]);
-  }, [])
+    setCompanyListData(data)
+  }, [data])
 
   const handleCardClick = (index: number) => {
     setActiveCardIndex(index)
   };
 
+  const handlePageForwardChange = () => {
+    setPage(prevState => prevState + 1);
+    window.scrollTo(0, 0);
+  }
+
+  const handlePageBackwardChange = () => {
+    setPage(prevState => prevState - 1);
+    window.scrollTo(0, 0);
+  }
+
+  
+
   
   return (
     <>
-        <section className="flex flex-col gap-y-[1px]">
-          {companyListData?.map((field, idx) => {
-          return (
-            <CompanyListingCard companyData={field} key={idx} handleCardClick={() => handleCardClick(idx)} active={activeCardIndex === idx}/>
-          )
-        })}
+        <section>
+          <div className="py-6 px-3 flex justify-center">
+            <Search/>
+          </div>
+          <div className="grid xs:grid-cols-1 sm:grid-cols-[repeat(auto-fill,_minmax(300px,_1fr))]  gap-[1px] px-1 place-items-center">
+            {companyListData?.map((field, idx) => {
+              return (
+                <CompanyListingCard companyData={field} key={idx} handleCardClick={() => handleCardClick(idx)} active={activeCardIndex === idx}/>
+              )
+            })}
+          </div>
+          {companyListData.length > 0 && (
+              <div className="flex justify-center w-full mt-8">
+                <div className="join">
+                  <button className={clsx("join-item btn", page === 1 && "btn-disabled")} disabled={page === 1} onClick={handlePageBackwardChange}>«</button>
+                  <button className="join-item btn">Page {page}</button>
+                  <button className={clsx("join-item btn", page === totalPages && "btn-disabled")} disabled={page === totalPages} onClick={handlePageForwardChange}>»</button>
+                </div>
+                </div>
+          )}
         </section>
+        {isLoading && data.length === 0 && <div className="absolute top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+            <span className="loading loading-infinity loading-lg text-black"></span>
+          </div>}
+            
+
     </>
   )
 }
