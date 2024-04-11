@@ -4,12 +4,15 @@ import { useGetCompanies } from "../api"
 import { CompanyDataType } from "@/types"
 import clsx from "clsx"
 import { Search } from "../components"
+import { useRouter } from "next/router"
 
 
 export function HomeView() {
+  const router = useRouter()
   const [companyListData, setCompanyListData] = useState<CompanyDataType[]>([])
   const [activeCardIndex, setActiveCardIndex] = useState(0)
-  const [page, setPage] = useState(1)
+  const { page: pageQuery } = router.query;
+  const page = typeof pageQuery === 'string' ? parseInt(pageQuery, 10) : 1;
   const { isLoading, data, error, totalPages } = useGetCompanies({page, limit: 40})
 
   useEffect(() => {
@@ -21,14 +24,16 @@ export function HomeView() {
   };
 
   const handlePageForwardChange = () => {
-    setPage(prevState => prevState + 1);
+    const nextPage = page + 1;
+    router.push(`/?page=${nextPage}`);
     window.scrollTo(0, 0);
-  }
-
+  };
+  
   const handlePageBackwardChange = () => {
-    setPage(prevState => prevState - 1);
+    const prevPage = Math.max(1, page - 1); 
+    router.push(`/?page=${prevPage}`);
     window.scrollTo(0, 0);
-  }
+  };
 
   
 

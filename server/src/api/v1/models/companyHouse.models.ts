@@ -45,7 +45,8 @@ export class CompanyHouseTable extends Model<models.CompanyHouse, CompanyHouseCr
 
   @HasOne(() => VisaTable, 'company_name')
   declare visaDetails: VisaTable;
-
+  
+  
   @BelongsTo(() => SicTable, 'sic_code')
 declare sicDetails: SicTable;
 

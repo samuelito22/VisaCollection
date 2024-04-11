@@ -10,7 +10,7 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef, onKeyDown }) => {
   return (
-    <div className='max-w-[350px] w-screen h-12 flex' onClick={() => focusRef.current?.focus()}>
+    <div className='w-full max-w-[350px] h-12 flex' onClick={() => focusRef.current?.focus()}>
       <div className="w-16 flex justify-center items-center">
         {icon}
       </div>
@@ -19,9 +19,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ placeholder, icon, focusRef, 
         onKeyDown={onKeyDown}
         type="text"
         name="search"
-        className="pr-3 py-2 w-full h-full bg-white focus:ring-0 focus:border-none font-light text-gray-700 " 
+        className="pr-3 py-2 flex-1 h-full bg-white focus:ring-0 focus:border-none font-light text-gray-700 overflow-hidden whitespace-nowrap text-ellipsis" 
         placeholder={placeholder}
         style={{ border: 'none', outline: 'none' }}
+        
       />
     </div>
   );
@@ -40,6 +41,8 @@ export function Search() {
 
         if(values[0] || values[1]){
             window.location.href = `/companies?q=${values[0] ? encodeURIComponent(values[0]) : ''}&l=${values[1] ? encodeURIComponent(values[1]) : ''}`
+        } else {
+            window.location.href = `/?from=jobsearch-empty-whatwhere`
         }
     }
 

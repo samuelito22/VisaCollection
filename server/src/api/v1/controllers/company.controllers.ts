@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { AppError, sendSuccessResponse } from "../helpers";
 import { CompanyHouseTable, SicTable, UrlTable, VisaTable } from "../models";
+import { Op } from "sequelize";
 
 /**
  * Fetches a paginated list of companies from the database.
@@ -15,6 +16,10 @@ import { CompanyHouseTable, SicTable, UrlTable, VisaTable } from "../models";
 
 export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
     try {
+        const { q, l } = req.query
+        const qValue = typeof q === 'string' ? decodeURIComponent(q) : '';
+        const lValue = typeof l === 'string' ? decodeURIComponent(l) : '';
+        
         const limit = parseInt(req.query.limit as string) || 10;
         if (isNaN(limit) || limit <= 0) {
             // Throw an AppError if limit query parameter is invalid
@@ -29,8 +34,26 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
 
         const offset = (page - 1) * limit;
 
+        let whereCondition = {};
+        if (qValue) {
+            whereCondition = {
+                ...whereCondition,
+                [Op.or]: [
+                    { company_name: { [Op.like]: `%${qValue}%` } },
+                    { '$sicDetails.industry$': { [Op.like]: `%${qValue}%` } }
+                ]
+            };
+        }
+        if (lValue) {
+            whereCondition = {
+                ...whereCondition,
+                city: { [Op.like]: `%${lValue}%` }
+            };
+        }
+
         // Fetch paginated companies
         const { count: totalItems, rows: companies } = await CompanyHouseTable.findAndCountAll({
+            where: whereCondition,
             limit: limit,
             offset: offset,
             order: [['company_name', 'ASC']],
@@ -64,13 +87,3 @@ export const getCompanies = async (req: Request, res: Response, next: NextFuncti
     }
 };
 
-export type CompanyDataType = {
-    company_name: string,
-    city?: string,
-    visa_route?: string,
-    company_status?: string,
-    industry?: string,
-    website_url?: string,
-    linkedin_url?: string
-
-}
