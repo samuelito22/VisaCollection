@@ -2,13 +2,13 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "vercel-build": "tsc",
-    "start": "tsc && node dist/server.js",
-    "start:dev": "nodemon --exec ts-node -r tsconfig-paths/register src/server.ts"
+    "start": "tsc && node dist/index.js",
+    "start:dev": "nodemon --exec ts-node -r tsconfig-paths/register src/index.ts"
   },
   "keywords": [],
   "author": "",
