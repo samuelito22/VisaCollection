@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, PrimaryKey, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "../../v1/interfaces"
+import { models } from "../interfaces"
 import {CompanyHouseTable} from './companyHouse.models';
 
 // Define the attributes of the Plan model
