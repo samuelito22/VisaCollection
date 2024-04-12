@@ -1,4 +1,4 @@
-import { sequelize } from "@/database"
+import { sequelize } from "../../../database"
 import { CompanyHouseTable } from "./companyHouse.models"
 import { SicTable } from "./sic.models"
 import { UrlTable } from "./url.models"

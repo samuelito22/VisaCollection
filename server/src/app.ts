@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import v1Routes from "@/api/v1/routes"
+import v1Routes from "./api/v1/routes"
 import cors from "cors"
 import { errorHandler } from './api/v1/middlewares';
 import { NODE_ENV } from './config';

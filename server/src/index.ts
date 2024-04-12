@@ -18,10 +18,10 @@ process.on('unhandledRejection', (err) => {
 import dotenv from "dotenv";
 dotenv.config();
 
-import app from '@/app'; // Import the configured Express app
+import app from './app'; // Import the configured Express app
 import { createServer } from 'http';
-import { sequelize } from '@/database';
-import "@v1/models"
+import { sequelize } from './database';
+import "./api/v1/models"
 
 
 sequelize.authenticate()

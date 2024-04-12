@@ -1,6 +1,6 @@
 import { Table, Column, Model, DataType, PrimaryKey, ForeignKey, HasOne, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "@v1/interfaces"
+import { models } from "../../v1/interfaces"
 import {SicTable} from './sic.models';
 import {UrlTable} from './url.models';
 import {VisaTable} from './visa.models';
