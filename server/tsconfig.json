@@ -111,6 +111,6 @@
       "@v1/*": ["src/api/v1/*"]
     }
   },
-  "include": ["src/**/*", "src/index.ts"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts"]
 }
