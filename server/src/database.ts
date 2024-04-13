@@ -1,5 +1,6 @@
 import { NODE_ENV, sequelizeConfig } from './config'; // Adjust the path as needed
 import { Sequelize } from 'sequelize-typescript';
+import pg from "pg"
 
 const config = sequelizeConfig[NODE_ENV];
 
@@ -13,6 +14,7 @@ const sequelize:Sequelize = new Sequelize(
       host: config.host,
       port: config.port,
       dialect: config.dialect,
+      dialectModule: pg,
       dialectOptions: config.dialectOptions,
       logging:false
       // ... other Sequelize options

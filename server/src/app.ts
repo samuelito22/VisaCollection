@@ -1,30 +1,32 @@
-import express from 'express';
-import morgan from 'morgan';
-import helmet from 'helmet';
-import cors from 'cors';
+import express, { Express, Request, Response } from 'express';
+import bodyParser from 'body-parser';
+import v1Routes from "./api/v1/routes"
+import cors from "cors"
+import { errorHandler } from './api/v1/middlewares';
+import { NODE_ENV } from './config';
+import morgan from "morgan"
 
-import * as middlewares from './middlewares';
-import api from './api';
-import MessageResponse from './interfaces/MessageResponse';
+const app: Express = express();
 
-require('dotenv').config();
+// Middleware setup
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const app = express();
-
-app.use(morgan('dev'));
-app.use(helmet());
+// CORS setup or other common middleware
 app.use(cors());
-app.use(express.json());
 
-app.get<{}, MessageResponse>('/', (req, res) => {
-  res.json({
-    message: '🦄🌈✨👋🌎🌍🌏✨🌈🦄',
-  });
+if (NODE_ENV === 'development') {
+  app.use(morgan("dev"));
+}
+
+app.use(errorHandler);
+
+// Register routes
+app.use('/api/v1', v1Routes);
+
+// Catch-all route for unhandled requests
+app.use('*', (req: Request, res: Response) => {
+  res.status(404).send('API endpoint not found');
 });
-
-app.use('/api/v1', api);
-
-app.use(middlewares.notFound);
-app.use(middlewares.errorHandler);
 
 export default app;
