@@ -19,8 +19,6 @@ if (NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
-app.use(errorHandler);
-
 // Register routes
 app.use('/api/v1', v1Routes);
 
@@ -28,5 +26,7 @@ app.use('/api/v1', v1Routes);
 app.use('*', (req: Request, res: Response) => {
   res.status(404).send('API endpoint not found');
 });
+
+app.use(errorHandler);
 
 export default app;
