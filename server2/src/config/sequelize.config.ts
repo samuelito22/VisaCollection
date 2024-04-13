@@ -28,7 +28,21 @@ export const sequelizeConfig: SequelizeConfig = {
     dialect: 'postgres',
     dialectOptions: {
       ssl: {
-        require: true,
+        require: false,
+        rejectUnauthorized: false // Remember to set this to true in production!
+      }
+    },
+  },
+  production: {
+    username: process.env.DB_USERNAME || 'default_username',
+    password: process.env.DB_PASSWORD || 'default_password',
+    database: process.env.DB_NAME || 'default_database',
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432', 10),
+    dialect: 'postgres',
+    dialectOptions: {
+      ssl: {
+        require: false,
         rejectUnauthorized: false // Remember to set this to true in production!
       }
     },

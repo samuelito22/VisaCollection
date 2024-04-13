@@ -18,6 +18,7 @@ process.on('unhandledRejection', (err) => {
 import dotenv from "dotenv";
 dotenv.config();
 
+
 import app from './app'; // Import the configured Express app
 import { createServer } from 'http';
 import { sequelize } from './database';
@@ -43,3 +44,4 @@ sequelize.authenticate()
   .catch(error => {
     console.error('Unable to connect to the database:', error);
   });
+  
