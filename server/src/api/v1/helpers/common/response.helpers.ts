@@ -1,4 +1,4 @@
-import express from 'express'
+import express from 'express';
 
 /**
  * Custom application error class that extends the built-in Error class.
@@ -9,35 +9,35 @@ import express from 'express'
  * and responses.
  */
 export class AppError extends Error {
-    /**
+  /**
      * HTTP status code for the error, indicating the error type (client or server).
      */
-    statusCode: number;
+  statusCode: number;
 
-    /**
+  /**
      * Categorizes the error as either 'fail' for client-side errors or 'error' for server-side ones.
      */
-    status: string;
+  status: string;
 
-    /**
+  /**
      * Indicates whether the error is an expected one (true) as opposed to an unexpected programming error (false).
      */
-    isOperational: boolean;
+  isOperational: boolean;
   
-    /**
+  /**
      * Initializes a new instance of the AppError class with a message and status code.
      * 
      * @param message Descriptive message about the error.
      * @param statusCode HTTP status code that best represents the error condition.
      */
-    constructor(message: string, statusCode: number) {
-      super(message);
-      this.statusCode = statusCode;
-      this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
-      this.isOperational = true;
+  constructor(message: string, statusCode: number) {
+    super(message);
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true;
   
-      Error.captureStackTrace(this, this.constructor);
-    }
+    Error.captureStackTrace(this, this.constructor);
+  }
 }
 
   
@@ -53,10 +53,10 @@ export class AppError extends Error {
  * @param message Descriptive message indicating the success nature of the response.
  * @param data Optional payload to include in the response body. Defaults to null.
  */ 
- export function sendSuccessResponse(res: express.Response, statusCode: number, message: string, data: any = null) {
-    return res.status(statusCode).json({
-      status: "success",
-      message: message,
-      data,
-    });
-  }
+export function sendSuccessResponse(res: express.Response, statusCode: number, message: string, data: any = null) {
+  return res.status(statusCode).json({
+    status: 'success',
+    message: message,
+    data,
+  });
+}

@@ -6,23 +6,23 @@ process.on('uncaughtException', (err) => {
 
 process.on('unhandledRejection', (err) => {
   console.error('UNHANDLED REJECTION! 💥 Shutting down...');
-  if (err instanceof Error){
-    console.error(err.name, err.message)
+  if (err instanceof Error) {
+    console.error(err.name, err.message);
   } else {
-    console.error(err)
+    console.error(err);
   }
   process.exit(1);
 });
 
 
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 
 import app from './app'; // Import the configured Express app
 import { createServer } from 'http';
 import { sequelize } from './database';
-import "./api/v1/models"
+import './api/v1/models';
 
 
 sequelize.authenticate()
@@ -30,7 +30,7 @@ sequelize.authenticate()
     console.log('Connection has been established successfully. 🐘');
 
     await sequelize.sync().then(() => {
-      console.log(`Tables have been synchronized.`);
+      console.log('Tables have been synchronized.');
     });
 
     // Start listening for requests after a successful database connection

@@ -1,14 +1,14 @@
 import { Table, Column, Model, DataType, PrimaryKey, HasMany } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "../interfaces"
-import {CompanyHouseTable} from './companyHouse.models';
+import { models } from '../interfaces';
+import { CompanyHouseTable } from './companyHouse.models';
 
 // Define the attributes of the Plan model
 
 // Specify which attributes are optional when creating an instance
 type SicCreationAttributes = Optional<models.Sic, 'industry' | 'description'>;
 
-@Table({tableName: "sic_table", timestamps: false})
+@Table({ tableName: 'sic_table', timestamps: false })
 export class SicTable extends Model<models.Sic, SicCreationAttributes> {
 
   @PrimaryKey
@@ -23,7 +23,7 @@ export class SicTable extends Model<models.Sic, SicCreationAttributes> {
   declare description?: string;
 
   @HasMany(() => CompanyHouseTable, 'sic_code')
-declare companyHouseDetails: CompanyHouseTable[];
+  declare companyHouseDetails: CompanyHouseTable[];
 
 
 }

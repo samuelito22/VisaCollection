@@ -1,16 +1,16 @@
 import { Table, Column, Model, DataType, PrimaryKey, ForeignKey, HasOne, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "../interfaces"
-import {SicTable} from './sic.models';
-import {UrlTable} from './url.models';
-import {VisaTable} from './visa.models';
+import { models } from '../interfaces';
+import { SicTable } from './sic.models';
+import { UrlTable } from './url.models';
+import { VisaTable } from './visa.models';
 
 // Define the attributes of the Plan model
 
 // Specify which attributes are optional when creating an instance
 type CompanyHouseCreationAttributes = Optional<models.CompanyHouse, 'city' | 'address' | 'postcode' | 'sic_code' | 'company_charges' | 'company_name' | 'company_number' | 'company_status'>;
 
-@Table({tableName: "companyhouse_table", timestamps: false})
+@Table({ tableName: 'companyhouse_table', timestamps: false })
 export class CompanyHouseTable extends Model<models.CompanyHouse, CompanyHouseCreationAttributes> {
 
   @PrimaryKey
@@ -48,6 +48,6 @@ export class CompanyHouseTable extends Model<models.CompanyHouse, CompanyHouseCr
   
   
   @BelongsTo(() => SicTable, 'sic_code')
-declare sicDetails: SicTable;
+  declare sicDetails: SicTable;
 
 }

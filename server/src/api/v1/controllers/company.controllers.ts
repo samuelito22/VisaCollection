@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { AppError, sendSuccessResponse } from "../helpers";
-import { CompanyHouseTable, SicTable, UrlTable, VisaTable } from "../models";
-import { Op } from "sequelize";
+import { NextFunction, Request, Response } from 'express';
+import { AppError, sendSuccessResponse } from '../helpers';
+import { CompanyHouseTable, SicTable, UrlTable, VisaTable } from '../models';
+import { Op } from 'sequelize';
 
 /**
  * Fetches a paginated list of companies from the database.
@@ -15,75 +15,75 @@ import { Op } from "sequelize";
  */
 
 export const getCompanies = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const { q, l } = req.query
-        const qValue = typeof q === 'string' ? decodeURIComponent(q) : '';
-        const lValue = typeof l === 'string' ? decodeURIComponent(l) : '';
+  try {
+    const { q, l } = req.query;
+    const qValue = typeof q === 'string' ? decodeURIComponent(q) : '';
+    const lValue = typeof l === 'string' ? decodeURIComponent(l) : '';
         
-        const limit = parseInt(req.query.limit as string) || 10;
-        if (isNaN(limit) || limit <= 0) {
-            // Throw an AppError if limit query parameter is invalid
-            throw new AppError("Invalid 'limit' query parameter. 'limit' must be a positive number.", 400);
-        }
-
-        const page = parseInt(req.query.page as string) || 1;
-        if (isNaN(page) || page <= 0) {
-            // Throw an AppError if page query parameter is invalid
-            throw new AppError("Invalid 'page' query parameter. 'page' must be a positive number.", 400);
-        }
-
-        const offset = (page - 1) * limit;
-
-        let whereCondition = {};
-        if (qValue) {
-            whereCondition = {
-                ...whereCondition,
-                [Op.or]: [
-                    { company_name: { [Op.like]: `%${qValue}%` } },
-                    { '$sicDetails.industry$': { [Op.like]: `%${qValue}%` } }
-                ]
-            };
-        }
-        if (lValue) {
-            whereCondition = {
-                ...whereCondition,
-                city: { [Op.like]: `%${lValue}%` }
-            };
-        }
-
-        // Fetch paginated companies
-        const { count: totalItems, rows: companies } = await CompanyHouseTable.findAndCountAll({
-            where: whereCondition,
-            limit: limit,
-            offset: offset,
-            order: [['company_name', 'ASC']],
-            include: [UrlTable, VisaTable, SicTable]
-        });
-
-        // Calculate total pages
-        const totalPages = Math.ceil(totalItems / limit);
-
-        const formattedCompanies = companies.map(company => ({
-            company_name: company.company_name,
-            city: company.city,
-            visa_route: company.visaDetails?.visa_route,
-            company_status: company.company_status,
-            industry: company.sicDetails?.industry,
-            website_url: company.urlDetails?.website_url,
-            linkedin_url: company.urlDetails?.linkedin_url,
-        }));
-
-        sendSuccessResponse(res, 200, "Companies were retrieved successfully.", {companies: formattedCompanies, currentPage: page, totalPages, totalItems})
-    } catch (error) {
-        // Log the error and pass it to the error-handling middleware
-        console.error('Error fetching companies:', error);
-
-        if (!(error instanceof AppError)) {
-            // If the error is not an instance of AppError, consider it as an unexpected error
-            error = new AppError('An unexpected error occurred', 500);
-        }
-
-        next(error);
+    const limit = parseInt(req.query.limit as string) || 10;
+    if (isNaN(limit) || limit <= 0) {
+      // Throw an AppError if limit query parameter is invalid
+      throw new AppError("Invalid 'limit' query parameter. 'limit' must be a positive number.", 400);
     }
+
+    const page = parseInt(req.query.page as string) || 1;
+    if (isNaN(page) || page <= 0) {
+      // Throw an AppError if page query parameter is invalid
+      throw new AppError("Invalid 'page' query parameter. 'page' must be a positive number.", 400);
+    }
+
+    const offset = (page - 1) * limit;
+
+    let whereCondition = {};
+    if (qValue) {
+      whereCondition = {
+        ...whereCondition,
+        [Op.or]: [
+          { company_name: { [Op.like]: `%${qValue}%` } },
+          { '$sicDetails.industry$': { [Op.like]: `%${qValue}%` } },
+        ],
+      };
+    }
+    if (lValue) {
+      whereCondition = {
+        ...whereCondition,
+        city: { [Op.like]: `%${lValue}%` },
+      };
+    }
+
+    // Fetch paginated companies
+    const { count: totalItems, rows: companies } = await CompanyHouseTable.findAndCountAll({
+      where: whereCondition,
+      limit: limit,
+      offset: offset,
+      order: [['company_name', 'ASC']],
+      include: [UrlTable, VisaTable, SicTable],
+    });
+
+    // Calculate total pages
+    const totalPages = Math.ceil(totalItems / limit);
+
+    const formattedCompanies = companies.map(company => ({
+      company_name: company.company_name,
+      city: company.city,
+      visa_route: company.visaDetails?.visa_route,
+      company_status: company.company_status,
+      industry: company.sicDetails?.industry,
+      website_url: company.urlDetails?.website_url,
+      linkedin_url: company.urlDetails?.linkedin_url,
+    }));
+
+    sendSuccessResponse(res, 200, 'Companies were retrieved successfully.', { companies: formattedCompanies, currentPage: page, totalPages, totalItems });
+  } catch (error) {
+    // Log the error and pass it to the error-handling middleware
+    console.error('Error fetching companies:', error);
+
+    if (!(error instanceof AppError)) {
+      // If the error is not an instance of AppError, consider it as an unexpected error
+      error = new AppError('An unexpected error occurred', 500);
+    }
+
+    next(error);
+  }
 };
 

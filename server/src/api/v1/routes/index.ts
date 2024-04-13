@@ -1,8 +1,8 @@
-import express from "express"
-import companyRoutes from "./company.routes"
+import express from 'express';
+import companyRoutes from './company.routes';
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.use("/", companyRoutes)
+routes.use('/', companyRoutes);
 
-export default routes
+export default routes;

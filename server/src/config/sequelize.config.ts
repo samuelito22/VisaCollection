@@ -29,8 +29,8 @@ export const sequelizeConfig: SequelizeConfig = {
     dialectOptions: {
       ssl: {
         require: false,
-        rejectUnauthorized: false // Remember to set this to true in production!
-      }
+        rejectUnauthorized: false, // Remember to set this to true in production!
+      },
     },
   },
   production: {
@@ -43,8 +43,8 @@ export const sequelizeConfig: SequelizeConfig = {
     dialectOptions: {
       ssl: {
         require: false,
-        rejectUnauthorized: false // Remember to set this to true in production!
-      }
+        rejectUnauthorized: false, // Remember to set this to true in production!
+      },
     },
-  }
+  },
 };

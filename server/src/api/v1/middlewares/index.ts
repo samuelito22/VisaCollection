@@ -1,1 +1,1 @@
-export * from "./errorHandler.middlewares"
+export * from './errorHandler.middlewares';

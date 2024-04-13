@@ -1,25 +1,25 @@
 import { NODE_ENV, sequelizeConfig } from './config'; // Adjust the path as needed
 import { Sequelize } from 'sequelize-typescript';
-import pg from "pg"
+import pg from 'pg';
 
 const config = sequelizeConfig[NODE_ENV];
 
 
 // Create a Sequelize instance with the environment-specific configuration
 const sequelize:Sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    {
-      host: config.host,
-      port: config.port,
-      dialect: config.dialect,
-      dialectModule: pg,
-      dialectOptions: config.dialectOptions,
-      logging:false
-      // ... other Sequelize options
-    }
-  );
+  config.database,
+  config.username,
+  config.password,
+  {
+    host: config.host,
+    port: config.port,
+    dialect: config.dialect,
+    dialectModule: pg,
+    dialectOptions: config.dialectOptions,
+    logging:false,
+    // ... other Sequelize options
+  },
+);
 
 // Import models, e.g., UserModel
 // const UserModel = sequelize.import('./userModel');

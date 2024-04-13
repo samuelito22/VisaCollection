@@ -1,14 +1,14 @@
 import { Table, Column, Model, DataType, PrimaryKey, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "../interfaces"
-import {CompanyHouseTable} from './companyHouse.models';
+import { models } from '../interfaces';
+import { CompanyHouseTable } from './companyHouse.models';
 
 // Define the attributes of the Plan model
 
 // Specify which attributes are optional when creating an instance
 type VisaCreationAttributes = Optional<models.Visa, 'type_rating' | 'visa_route'>;
 
-@Table({tableName: "visa_table", timestamps: false})
+@Table({ tableName: 'visa_table', timestamps: false })
 export class VisaTable extends Model<models.Visa, VisaCreationAttributes> {
 
   @PrimaryKey

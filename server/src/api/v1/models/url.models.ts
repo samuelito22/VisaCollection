@@ -1,14 +1,14 @@
 import { Table, Column, Model, DataType, PrimaryKey, BelongsTo } from 'sequelize-typescript';
 import { Optional } from 'sequelize';
-import { models } from "../interfaces"
-import {CompanyHouseTable} from './companyHouse.models';
+import { models } from '../interfaces';
+import { CompanyHouseTable } from './companyHouse.models';
 
 // Define the attributes of the Plan model
 
 // Specify which attributes are optional when creating an instance
 type UrlCreationAttributes = Optional<models.Url, 'linkedin_url' | 'website_url'>;
 
-@Table({tableName: "url_table", timestamps: false})
+@Table({ tableName: 'url_table', timestamps: false })
 export class UrlTable extends Model<models.Url, UrlCreationAttributes> {
 
   @PrimaryKey

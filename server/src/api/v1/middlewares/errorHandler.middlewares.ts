@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response } from 'express';
 
 // Define an interface for your custom error structure
 interface ErrorWithStatusCode extends Error {
@@ -7,7 +7,7 @@ interface ErrorWithStatusCode extends Error {
   isOperational?: boolean;
 }
 
-export function errorHandler(err: ErrorWithStatusCode, req: Request, res: Response, next: NextFunction): void {
+export function errorHandler(err: ErrorWithStatusCode, req: Request, res: Response): void {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 

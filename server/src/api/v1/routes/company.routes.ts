@@ -1,8 +1,8 @@
-import express from "express"
-import { getCompanies } from "../controllers/company.controllers"
+import express from 'express';
+import { getCompanies } from '../controllers/company.controllers';
 
-const routes = express.Router()
+const routes = express.Router();
 
-routes.get('/companies', getCompanies)
+routes.get('/companies', getCompanies);
 
-export default routes
+export default routes;
